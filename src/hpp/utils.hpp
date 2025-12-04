@@ -14,7 +14,7 @@ void inicializarRNG();
 
 int rolarDado(int tipoDado);
 
-int calcularIniciativa(int resultadoDado, int modificador);
+int calcularIniciativa(int resultadoDado, int nivel);
 
 void rolarIniciativaPersonagem(Personagem* p);
 
