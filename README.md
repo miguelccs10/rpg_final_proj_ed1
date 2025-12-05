@@ -8,8 +8,7 @@ Este projeto implementa um sistema para jogos de RPG, permitindo que o usuário 
 
   * `src/`: Código fonte (`.cpp`).
   * `src/hpp/`: Arquivos de cabeçalho (`.hpp`).
-  * `build/`: Arquivos objeto gerados durante a compilação.
-  * `bin/`: Diretório reservado para binários.
+  * `data/`: Arquivos de personagem
   * `Makefile`: Script de compilação.
 
 -----
