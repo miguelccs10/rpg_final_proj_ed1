@@ -1,0 +1,18 @@
+# Arquivo de Personagens - RPG Initiative Tracker
+# Formato: nome;nivel;modificador;tipo
+# tipo: P = Player, N = NPC
+# Linhas comecando com # sao ignoradas
+# Linhas em branco sao ignoradas
+
+# === JOGADORES ===
+Gandalf;20;3;P
+Aragorn;15;4;P
+Legolas;14;5;P
+Gimli;12;2;P
+Frodo;8;1;P
+
+# === INIMIGOS ===
+Goblin Arqueiro;5;-1;N
+Goblin Guerreiro;5;0;N
+Orc Chefe;8;2;N
+Troll da Caverna;10;-2;N

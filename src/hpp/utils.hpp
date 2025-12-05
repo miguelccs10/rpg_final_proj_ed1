@@ -22,4 +22,6 @@ void rolarIniciativaTodos(Lista* lista);
 
 int validarNivel(int nivel);
 
+int carregarArquivo(const string& nomeArquivo, Lista* lista);
+
 #endif

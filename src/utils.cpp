@@ -7,6 +7,7 @@ Implementacao das funcoes utilitarias
 #include <iostream>
 #include <random>
 #include <ctime>
+#include <fstream>
 
 using namespace std;
 
@@ -82,4 +83,95 @@ int validarNivel(int nivel) {
         return 20;
     }
     return nivel;
+}
+
+//carrega personagens de um arquivo
+int carregarArquivo(const string& nomeArquivo, Lista* lista) {
+    if (lista == nullptr) {
+        return -1;
+    }
+    
+    //abre o arquivo
+    ifstream arquivo(nomeArquivo);
+    
+    if (!arquivo.is_open()) {
+        cout << "Erro: Nao foi possivel abrir o arquivo '" << nomeArquivo << "'" << endl;
+        return -1;
+    }
+    
+    string linha;
+    int contadorID = 1;
+    int personagensCarregados = 0;
+    int linhaAtual = 0;
+    
+    while (getline(arquivo, linha)) {
+        linhaAtual++;
+        
+        if (linha.empty()) {
+            continue;
+        }
+        
+        if (linha[0] == '#') {
+            continue;
+        }
+        
+        //remove espacos em branco no inicio e fim
+        size_t inicio = linha.find_first_not_of(" \t");
+        size_t fim = linha.find_last_not_of(" \t\r\n");
+        
+        if (inicio == string::npos) {
+            continue;
+        }
+        
+        linha = linha.substr(inicio, fim - inicio + 1);
+        
+        //parse da linha: nome;nivel;tipo
+        string campos[3];
+        int campoAtual = 0;
+        string temp = "";
+        
+        for (size_t i = 0; i <= linha.length(); i++) {
+            if (i == linha.length() || linha[i] == ';') {
+                if (campoAtual < 3) {
+                    campos[campoAtual] = temp;
+                    campoAtual++;
+                }
+                temp = "";
+            } else {
+                temp += linha[i];
+            }
+        }
+        
+        if (campoAtual < 3) {
+            cout << "Aviso: Linha " << linhaAtual << " ignorada (formato invalido)" << endl;
+            continue;
+        }
+        
+        //cria o personagem
+        Personagem p;
+        p.id = contadorID++;
+        p.nome = campos[0];
+        
+        //converte e valida nivel
+        try {
+            p.nivel = validarNivel(stoi(campos[1]));
+        } catch (...) {
+            cout << "Aviso: Linha " << linhaAtual << " - nivel invalido, usando 1" << endl;
+            p.nivel = 1;
+        }
+        
+        //define tipo (Player ou NPC)
+        p.isPlayer = (campos[3][0] == 'P' || campos[3][0] == 'p');
+        
+        //valores padrao
+        p.dadoBase;
+        p.iniciativaAtual = 0;
+        
+        lista->inFim(p);
+        personagensCarregados++;
+    }
+    
+    arquivo.close();
+    
+    return personagensCarregados;
 }

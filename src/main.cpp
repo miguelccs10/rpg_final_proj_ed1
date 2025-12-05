@@ -43,6 +43,7 @@ void MenuPrincipal()
     cout << " 6. Ordenar lista (QuickSort)" << endl;
     cout << " 7. Ordenar lista (MergeSort)" << endl;
     cout << " 8. Iniciar combate" << endl;
+    cout << " 9. Carregar personagens de arquivo" << endl;
     cout << " 0. Sair" << endl;
     cout << "========================================" << endl;
     cout << " Metodo de ordenacao atual: " << Metodo_Ordenacao << endl;
@@ -107,6 +108,27 @@ void AddPersonagem(Lista *lista, int *proximoID)
     lista->inFim(p);
 
     cout << "Personagem adicionado com sucesso! ID: " << p.id << endl;
+}
+
+int addPersonagemArquivo(Lista* lista, int* proximoID) {
+    string nomeArquivo;
+    
+    cout << endl << "Digite o caminho do arquivo ou pressione ENTER para usar o padrao: ";
+    getline(cin, nomeArquivo);
+    
+    if (nomeArquivo.empty()) {
+        nomeArquivo = "data/personagens.txt";
+        cout << "Usando arquivo padrao: " << nomeArquivo << endl;
+    }
+    
+    int carregados = carregarArquivo(nomeArquivo, lista);
+    
+    if (carregados > 0) {
+        *proximoID += carregados;
+        cout << "Carregados " << carregados << " personagem(ns)!" << endl;
+    }
+    
+    return carregados;
 }
 
 void RemoverPersonagem(Lista *lista)
@@ -354,6 +376,10 @@ int main()
         case 8:
             IniciarCombate(&lista, &proximoID);
             Pausar();
+            break;
+
+        case 9:
+            addPersonagemArquivo(&lista, &proximoID);
             break;
 
         case 0:
